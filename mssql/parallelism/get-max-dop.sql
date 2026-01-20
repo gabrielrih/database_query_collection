@@ -1,0 +1,2 @@
+SELECT * FROM SYS.SYSCONFIGURES 
+WHERE comment LIKE '%degree%'

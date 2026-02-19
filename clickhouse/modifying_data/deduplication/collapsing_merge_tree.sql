@@ -43,3 +43,7 @@ INSERT INTO url_hits (url, sign) VALUES
     ('/docs', -1);
 
 SELECT * FROM url_hits FINAL;
+
+-- Again, when the table is merged, the old rows are removed
+OPTIMIZE TABLE url_hits FINAL;
+SELECT * FROM system.parts WHERE table = 'url_hits' and active = 1;

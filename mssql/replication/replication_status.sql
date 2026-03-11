@@ -21,7 +21,7 @@ go
 -- Watch sincronization replication lag between PRIMARY and the READ REPLICA
 SET NOCOUNT ON
 
-DECLARE @lag_threshold_in_seconds INT = 1
+DECLARE @lag_threshold_in_seconds INT = 10
 DECLARE @is_first BIT = 1
 DECLARE @lag INT
 DECLARE @dbid INT

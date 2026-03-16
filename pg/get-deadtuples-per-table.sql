@@ -2,8 +2,9 @@ SELECT
     tbl.n_live_tup,
     tbl.n_dead_tup,
     tbl.schemaname || '.' || tbl.relname AS tabl,
-    (psut.n_dead_tup::float / (psut.n_live_tup + psut.n_dead_tup) * 100) AS dead_tuple_percent,
-    pg_size_pretty(pg_total_relation_size(psut.relid)) AS table_size
+    (psut.n_dead_tup::float / NULLIF(psut.n_live_tup + psut.n_dead_tup, 0) * 100) AS dead_tuple_percent,
+    pg_size_pretty(pg_total_relation_size(psut.relid)) AS table_size,
+    pg_total_relation_size(psut.relid) AS table_size_bytes
 FROM
     pg_stat_all_tables tbl
 JOIN
@@ -15,4 +16,5 @@ WHERE
     AND (psut.n_live_tup + psut.n_dead_tup) != 0
     AND (psut.n_dead_tup::float / (psut.n_live_tup + psut.n_dead_tup) * 100) != 0
 ORDER BY
-    dead_tuple_percent DESC;
+    dead_tuple_percent DESC, table_size_bytes DESC;
+
